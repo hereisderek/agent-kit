@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# pre-commit: this repository is PUBLIC. Blocks commits that add secrets, warns about anything else
+# that looks sensitive. Turned on by install.sh (git config core.hooksPath .githooks).
+# A false positive can be let through once: AGENT_KIT_ALLOW_SENSITIVE=1 git commit ...
+set -uo pipefail
+
+# Added lines only, excluding this hook and test.sh (they contain the patterns themselves).
+added="$(git diff --cached -U0 --no-color -- . ':!.githooks' ':!test.sh' | grep -E '^\+' | grep -vE '^\+\+\+ ' | cut -c2-)"
+[ -z "$added" ] && exit 0
+
+block=0
+hit() { # hit <label> <ERE>: block when an added line matches
+  local m
+  m="$(printf '%s\n' "$added" | grep -E -i -- "$2" | head -3)"
+  if [ -n "$m" ]; then echo "BLOCK  $1:"; printf '%s\n' "$m" | cut -c1-110 | sed 's/^/         /'; block=1; fi
+}
+warn=0
+note() { # note <label> <text>
+  if [ -n "$2" ]; then echo "WARN   $1:"; printf '%s\n' "$2" | sed 's/^/         /'; warn=1; fi
+}
+
+hit "private key" '-----BEGIN [A-Z ]*PRIVATE KEY-----'
+hit "token or API key" 'gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9_-]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}|AIza[0-9A-Za-z_-]{30,}|eyJ[A-Za-z0-9_-]{10,}\.eyJ'
+hit "credential assignment" "(password|passwd|secret|token|api[_-]?key)[a-z_]*[[:space:]]*[:=][[:space:]]*[\"']?[^[:space:]\"'<\$.{(][^[:space:]\"']{5,}"
+
+note "email addresses" "$(printf '%s\n' "$added" | grep -oE '[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}' | grep -viE '^git@|noreply|@example\.|\.local$' | sort -u | head -5)"
+note "public IPv4 addresses" "$(printf '%s\n' "$added" | grep -oE '([0-9]{1,3}\.){3}[0-9]{1,3}' | grep -vE '^(10\.|127\.|0\.|169\.254\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.|255\.)' | sort -u | head -5)"
+
+if [ "$warn$block" != "00" ]; then
+  echo
+  echo "agent-kit is a PUBLIC repository. Keep out: passwords, tokens, API keys, private keys, personal"
+  echo "email/phone/address, public IP addresses, and anything about other people. Private LAN IPs, LXC"
+  echo "names, Derek's public domains and GitHub username are already here on purpose."
+fi
+if [ "$block" = 1 ]; then
+  if [ "${AGENT_KIT_ALLOW_SENSITIVE:-}" = 1 ]; then echo "AGENT_KIT_ALLOW_SENSITIVE=1: letting it through."; exit 0; fi
+  echo "Commit blocked. If these are false positives: AGENT_KIT_ALLOW_SENSITIVE=1 git commit ..."
+  exit 1
+fi
+exit 0
