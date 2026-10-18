@@ -23,7 +23,7 @@ Already here on purpose (public or low risk): private LAN addresses (`172.16.x.x
 | `test.sh` | Sandboxed smoke test of `install.sh` and the hook. Run after changing either. | dev |
 | `.githooks/pre-commit` | The public-repo guard above. | dev |
 
-Skills: `markdown-converter` (markitdown, asks before installing), `release-cicd` (default release policy for package releases only), `docker-hosts` (use the Docker/Podman LXCs 2028/2029), `worktree-workflow` (feature work with Worktrunk).
+Skills: `markdown-converter` (markitdown, asks before installing), `release-cicd` (default release policy for package releases only), `docker-hosts` (use the Docker/Podman LXCs 2028/2029), `worktree-workflow` (feature work with Worktrunk), `state-droid-remote-device` (hardware device pool & StageDroid), `personal-orchestration-preset` (mobile Gradle locks & hooks).
 
 ## Rules for changing it
 

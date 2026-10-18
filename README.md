@@ -24,6 +24,8 @@ AGENTS.md                instructions for agents working in this repo (what each
 | `release-cicd` | Default tag format and release CI/CD policy for package releases only. Any runtime instruction overrides it. |
 | `docker-hosts` | Use the Docker and Podman LXCs (2028 / 2029) on machines without docker, or when asked: ports, data layout, exposing a service through Caddy under `/sites/<app>`. |
 | `worktree-workflow` | Standard feature workflow with Worktrunk: start in a new worktree, work, finish by PR or `wt merge`, when merging is allowed, what is automated. |
+| `state-droid-remote-device` | Discover, lease, and control physical/wireless Android test devices or AVDs via StageDroid Central Smart ADB Proxy (port 50370). |
+| `personal-orchestration-preset` | Derek's personal multi-agent orchestration preset: Gradle locks, device pool leasing hooks, and host memory discipline. |
 
 ## What differs per machine
 
