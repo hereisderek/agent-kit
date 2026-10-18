@@ -1,6 +1,7 @@
 ---
 name: markdown-converter
-description: Convert documents and files to Markdown with Microsoft's markitdown CLI. Use when converting PDF, Word (.docx), PowerPoint (.pptx), Excel (.xlsx, .xls), HTML, CSV, JSON, XML, images (EXIF/OCR), audio (transcription), ZIP archives, YouTube URLs, or EPubs to Markdown for LLM processing or text analysis. markitdown must be installed first: if `markitdown` is not on PATH, ask the user before installing it (never install or run it through uvx/pipx on your own).
+description: >-
+  Convert documents and files to Markdown with Microsoft's markitdown CLI. Use when converting PDF, Word (.docx), PowerPoint (.pptx), Excel (.xlsx, .xls), HTML, CSV, JSON, XML, images (EXIF/OCR), audio (transcription), ZIP archives, YouTube URLs, or EPubs to Markdown for LLM processing or text analysis. markitdown must be installed first: if `markitdown` is not on PATH, ask the user before installing it (never install or run it through uvx/pipx on your own).
 ---
 
 # Markdown Converter
