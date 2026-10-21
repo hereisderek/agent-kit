@@ -6,6 +6,8 @@ Derek's own agent skills and global rules, shared by every machine and agent he 
 
 Third-party skills (the `skills` CLI: taste-skill, android/skills, the official worktrunk skill, ...) are not in here. They are installed separately: `~/.agents/bootstrap.sh` on the Mac, `/opt/scripts/startup.d/skills-startup.sh` on the agent LXC.
 
+> **Companion repo.** The Android/KMP, multi-agent orchestration and gesture-animation skills live in [hereisderek/derek-agent-skills](https://github.com/hereisderek/derek-agent-skills) (installed with `npx skills add hereisderek/derek-agent-skills -g --full-depth -y`). This repo (agent-kit) holds the global rules, the per-machine notes and the skills that every machine uses: `markdown-converter`, `release-cicd`, `worktree-workflow`, `docker-hosts` and the device skills. Each skill lives in exactly one of the two repos.
+
 ## Layout
 
 ```
